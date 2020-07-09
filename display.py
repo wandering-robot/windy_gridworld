@@ -11,17 +11,23 @@ class Display:
         self.background.fill((128, 0, 128))
 
         self.boat_image = Boat_Image(self.pixel_length)
-        self.terminal = Terminal(self.pixel_length)
+        self.terminal1 = Terminal(self.pixel_length)
+        self.terminal2 = Terminal(self.pixel_length)
+
 
     def update_screen(self,boat):
         boat_x, boat_y = boat.coord
         boat_x, boat_y = self.pixel_length*boat_x, self.pixel_length*boat_y
         
-        term_x,term_y = 7*self.pixel_length,3*self.pixel_length
+        term1_x,term1_y = 7*self.pixel_length,3*self.pixel_length
+        term2_x,term2_y = 7*self.pixel_length,4*self.pixel_length
+
 
         self.display_window.blit(self.background,(0,0))
         self.display_window.blit(self.boat_image.image,(boat_x,boat_y))
-        self.display_window.blit(self.terminal.image,(term_x,term_y))
+        self.display_window.blit(self.terminal1.image,(term1_x,term1_y))
+        self.display_window.blit(self.terminal2.image,(term2_x,term2_y))
+
 
         py.display.flip()
 

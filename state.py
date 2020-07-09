@@ -14,7 +14,7 @@ class State:
             self.reward = 0
 
     def find_if_terminal(self):
-        return self.x == 7 and self.y == 3
+        return (self.x == 7 and self.y == 3) or (self.x == 7 and self.y == 4)
 
     def __repr__(self):
         return f'State: {self.x},{self.y}'
