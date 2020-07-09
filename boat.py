@@ -1,34 +1,35 @@
-from world import Sea
+from world import World
 
 class Boat:
     def __init__(self):
 
-        self.world = Sea()
-        self.cell = self.world.starting_cell
+        self.world = World()
+        self.state = self.world.starting_state
         
-        self.update_coord()
+        self.coord = self.update_coord()
 
     def update_coord(self):
-        self.x = self.cell.x
-        self.y = self.cell.y
+        self.x = self.state.x
+        self.y = self.state.y
+        return self.x,self.y
 
     def move(self,delx,dely):
         #keeps boat within bounds of sea
         try:
-            intended_cell = self.world.cells[(self.x+delx,self.y+dely)]
+            intended_state = self.world.states[(self.x+delx,self.y+dely)]
         except KeyError:
             if self.x + delx > self.world.x_max or self.x + delx < 0:
                 delx = 0
             if self.y + dely > self.world.y_max or self.y + dely < 0:
                 dely = 0
-            intended_cell = self.world.cells[(self.x+delx,self.y+dely)]
+            intended_state = self.world.states[(self.x+delx,self.y+dely)]
         #keeps wind from pushing too far upwards
         try:
-            self.cell = self.world.cells[(self.x+delx,self.y+dely - intended_cell.wind_strength)]
+            self.state = self.world.states[(self.x+delx,self.y+dely - intended_state.wind_strength)]
         except KeyError:
-            self.cell = intended_cell
+            self.state = intended_state
 
-        self.update_coord()
+        self.coord = self.update_coord()
 
 
 if __name__ == "__main__":
