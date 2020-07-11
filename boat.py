@@ -8,7 +8,6 @@ class Boat:
         
         self.coord = self.update_coord()
 
-        self.pushed_over = []
 
     def update_coord(self):
         self.x = self.state.x

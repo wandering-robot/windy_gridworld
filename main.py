@@ -11,8 +11,10 @@ class Agent:
         self.world = self.boat.world
         self.display = Display()
 
+        self.running = True
+
         self.discount = 1
-        self.epsilon = 0.1
+        self.epsilon = 0.01
         self.step_size = 0.15
 
         self.actions = [(i,j) for i in range(-1,2) for j in range(-1,2)]
@@ -79,19 +81,24 @@ class Agent:
     
             Q.value = Q.value + self.step_size*( R + self.discount*self.get_max_Qp(Sp).value - Q.value)
 
-            self.display.update_screen(self.boat)
-            if self.display.check_if_exit():
-                self.upload_policy()
-                break
+
             i += 1
             if S.is_terminal:
                 print(i)
                 self.upload_policy()
                 break
             if wait:
+                self.display.update_screen(self.boat)
+                if self.display.check_if_exit():
+                    self.upload_policy()
+                    self.running = False
+                    break
                 sleep(0.1)
 
 
 if __name__ == "__main__":
-    agent = Agent()
-    agent.learn(wait=True)
+    while True:
+        agent = Agent()
+        agent.learn(wait=True)
+        if not agent.running:
+            break
